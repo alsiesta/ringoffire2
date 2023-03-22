@@ -13,7 +13,9 @@ export class GameComponent {
   currentCard: string = '';
   game: Game;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {
+    
+   }
   
   ngOnInit() {
     this.newGame();

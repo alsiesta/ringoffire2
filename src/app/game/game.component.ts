@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Game } from 'src/models/game';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog} from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 
 @Component({
@@ -39,9 +39,8 @@ export class GameComponent {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogAddPlayerComponent, {
-      position: {left:'100px', top: '100px'} 
-    });
+    const dialogRef = this.dialog.open(DialogAddPlayerComponent,
+      );
 
     dialogRef.afterClosed().subscribe((name) => {
       if (name && name.length > 0) {

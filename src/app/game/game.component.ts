@@ -39,7 +39,9 @@ export class GameComponent {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogAddPlayerComponent);
+    const dialogRef = this.dialog.open(DialogAddPlayerComponent, {
+      position: {left:'100px', top: '100px'} 
+    });
 
     dialogRef.afterClosed().subscribe((name) => {
       if (name && name.length > 0) {

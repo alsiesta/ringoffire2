@@ -28,7 +28,7 @@ export class GameComponent {
   private collRef: CollectionReference<DocumentData>;
   private docRef: DocumentReference<any>;
   public data = [];
-  // newTodoText: string = 'Hallo';
+  // newTodoText: string = 'Hallo Neu';
 
   constructor(public dialog: MatDialog) {
     this.collRef = collection(this.firestore, 'games');
@@ -49,8 +49,8 @@ export class GameComponent {
     this.game = new Game();
     console.log(this.game);
 
-    // const coll = collection(this.firestore, "games");
-    // setDoc(doc(coll), {name: this.newTodoText});
+    // setDoc(doc(this.collRef), {game: this.game.toJSON()});
+
   }
 
   // auf games$ kann im template per "*ngFor="let data of games$ | asnc" zugegriffen werden

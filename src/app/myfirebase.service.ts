@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { addDoc, collectionData, deleteDoc, doc, docData, Firestore, updateDoc } from '@angular/fire/firestore';
 import {
   CollectionReference,
@@ -12,7 +11,7 @@ import { Game } from 'src/models/game';
 @Injectable({
   providedIn: 'root'
 })
-export class FirebaseService {
+export class MyfirebaseService {
   private collRef: CollectionReference<DocumentData>;
 
   constructor(private readonly firestore: Firestore) {

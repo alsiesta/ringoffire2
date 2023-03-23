@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { delay, Observable } from 'rxjs';
 import {
+  addDoc,
   collection,
   collectionData,
   CollectionReference,
@@ -36,23 +37,31 @@ export class GameComponent {
     this.games$.subscribe((data) => {
       // *ngFor kann auf this.data zugreifen, weil Angular *ngFor kontinuierlich schaut, ob Daten da sind. Es versucht es nicht nur einmal und dann nicht mehr
       this.data = data;
-      console.log('Observed data from INSIDE ngOnInit: ', this.data);
+      // console.log('Observed data from INSIDE ngOnInit: ', this.data);
     });
   }
 
   ngOnInit() {
-    this.logData();
+    // this.logData();
     this.newGame();
   }
 
-  newGame() {
+   newGame() {
     this.game = new Game();
-    console.log(this.game);
-
+    // console.log(this.game);
+     this.createGame();
     // setDoc(doc(this.collRef), {game: this.game.toJSON()});
-
   }
 
+  async createGame() {
+    let gameInfo = await addDoc(this.collRef,{ game: this.game.toJSON() });
+    console.log('Game info: ', gameInfo.id);
+  }
+
+  
+  
+  
+  //############ MEMORIZE ###################
   // auf games$ kann im template per "*ngFor="let data of games$ | asnc" zugegriffen werden
   //  ngOnInit() {
   //     this.games$ = collectionData(this.collRef);
@@ -61,15 +70,14 @@ export class GameComponent {
   //   }
 
   // auf this.data kann nur mit Verzögerung zugegriffen werden. Denn console.log führt sofort aus und versucht es dann nicht wieder!!!
-
-
-  logData() {
-    setTimeout(() => {
-      console.log('Observed data from OUTSIDE ngOnInit: ', this.data);
-    }, 2000);
-  }
-
-
+  // logData() {
+  //   setTimeout(() => {
+  //     console.log('Observed data from OUTSIDE ngOnInit: ', this.data);
+  //   }, 2000);
+  // }
+  //############ MEMORIZE ###################
+  
+ 
   takeCard() {
     if (!this.pickCardAnimation) {
       this.currentCard = this.game.stack.pop();

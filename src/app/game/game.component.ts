@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Game } from 'src/models/game';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
-import { Observable } from 'rxjs';
+import { delay, Observable } from 'rxjs';
+import { collection, collectionData, CollectionReference, DocumentData, DocumentReference, Firestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-game',
@@ -14,16 +15,34 @@ export class GameComponent {
   currentCard: string = '';
   games$: Observable<any[]>;
   game: Game;
+  firestore: Firestore = inject(Firestore);
+  private collRef: CollectionReference<DocumentData>;
+  private docRef: DocumentReference<any>;
+  
+  public data = [];
 
-  constructor(public dialog: MatDialog ) {
+  constructor(public dialog: MatDialog) {
+    this.collRef = collection(this.firestore, 'games'); 
   }
 
-  ngOnInit() {
+ ngOnInit() {
+    this.games$ = collectionData(this.collRef);
+    this.games$.subscribe(data => {
+      this.data = data;
+      console.log('Observed data from INSIDE ngOnInit: ',this.data);
+    });
+
     this.newGame();
-    console.log(this.game);
-
+    this. logToConsole()
   }
 
+  logToConsole() {
+    console.log('My Collection: ', this.collRef);
+    console.log('My Observable: ',this.games$);
+    console.log('Observed data from OUTSIDE ngOnInit: ', this.data);
+  }
+
+  
   newGame() {
     this.game = new Game();
     console.log(this.game);

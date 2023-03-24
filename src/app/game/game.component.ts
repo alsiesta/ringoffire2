@@ -12,8 +12,10 @@ import {
   DocumentData,
   DocumentReference,
   Firestore,
+  getDoc,
   setDoc,
 } from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -28,29 +30,44 @@ export class GameComponent {
   firestore: Firestore = inject(Firestore);
   private collRef: CollectionReference<DocumentData>;
   private docRef: DocumentReference<any>;
-  public data = [];
-  // newTodoText: string = 'Hallo Neu';
+  public actualFirebasedata = [];
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private route:ActivatedRoute) {
     this.collRef = collection(this.firestore, 'games');
     this.games$ = collectionData(this.collRef);
-    this.games$.subscribe((data) => {
+    this.games$.subscribe((firebasedata) => {
       // *ngFor kann auf this.data zugreifen, weil Angular *ngFor kontinuierlich schaut, ob Daten da sind. Es versucht es nicht nur einmal und dann nicht mehr
-      this.data = data;
+      this.actualFirebasedata = firebasedata;
       // console.log('Observed data from INSIDE ngOnInit: ', this.data);
     });
   }
 
   ngOnInit() {
-    // this.logData();
+    // this.logData();  // is logging data with delay to demonstrate runntime behavior of observable data
     this.newGame();
+    this.route.params.subscribe(async (params) => {
+      console.log(params['gameId']);
+      const docRef = doc(this.collRef, params['gameId']);
+      const docSnap = await getDoc(docRef);
+      //the game object on firebase is a nested object, which I have to destructure first
+      const fireDocumentObject = docSnap.data();
+      const destructuredGameObject = fireDocumentObject['game'];
+      //now I can access each key/value pair directly
+      this.game.currentPlayer = destructuredGameObject.currentPlayer;
+      this.game.playedCards = destructuredGameObject.playedCards;
+      this.game.players = destructuredGameObject.players;
+      this.game.stack = destructuredGameObject.stack;
+      
+      console.log('actual Game from firebase: ',destructuredGameObject);
+      console.log('actual Game at runtime in browser: ',this.game);
+      // setDoc(doc(this.collRef), {game: this.game.toJSON()});
+    });
+    
   }
 
    newGame() {
     this.game = new Game();
-    // console.log(this.game);
-     this.createGame();
-    // setDoc(doc(this.collRef), {game: this.game.toJSON()});
+    //  this.createGame();
   }
 
   async createGame() {

@@ -17,7 +17,7 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
-
+import { MyfirebaseService } from '../myfirebase.service';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -34,7 +34,7 @@ export class GameComponent {
   private docRef: DocumentReference<any>;
   public actualFirebasedata = [];
 
-  constructor(public dialog: MatDialog, private route:ActivatedRoute) {
+  constructor(public dialog: MatDialog, private route:ActivatedRoute, private firebaseGame: MyfirebaseService) {
     this.collRef = collection(this.firestore, 'games');
     this.games$ = collectionData(this.collRef);
     this.games$.subscribe((firebasedata) => {
@@ -60,8 +60,8 @@ export class GameComponent {
       this.game.players = destructuredGameObject.players;
       this.game.stack = destructuredGameObject.stack;
       
-      console.log('actual Game from firebase: ',destructuredGameObject);
-      console.log('actual Game at runtime in browser: ',this.game);
+      console.log('2. actual Game from firebase: ',destructuredGameObject);
+      console.log('2. actual Game from firebase: ',this.firebaseGame.getGameFromFirebase(this.gameId));
       // setDoc(doc(this.collRef), {game: this.game.toJSON()});
     });
     
@@ -107,9 +107,7 @@ export class GameComponent {
   }
   
   async updateGame() {
-    await updateDoc(this.docRef, { game: this.game.toJSON() });
-    console.log(this.docRef);
-    
+    await updateDoc(this.docRef, { game: this.game.toJSON() });    
   }
   
   //############ MEMORIZE ###################

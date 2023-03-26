@@ -14,6 +14,7 @@ import {
   Firestore,
   getDoc,
   setDoc,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 
@@ -26,6 +27,7 @@ export class GameComponent {
   pickCardAnimation = false;
   currentCard: string = '';
   games$: Observable<any[]>;
+  gameId: string;
   game: Game;
   firestore: Firestore = inject(Firestore);
   private collRef: CollectionReference<DocumentData>;
@@ -36,9 +38,8 @@ export class GameComponent {
     this.collRef = collection(this.firestore, 'games');
     this.games$ = collectionData(this.collRef);
     this.games$.subscribe((firebasedata) => {
-      // *ngFor kann auf this.data zugreifen, weil Angular *ngFor kontinuierlich schaut, ob Daten da sind. Es versucht es nicht nur einmal und dann nicht mehr
+      // *ngFor kann auf this.games$ zugreifen, weil Angular *ngFor kontinuierlich schaut, ob neue Daten da sind. 
       this.actualFirebasedata = firebasedata;
-      // console.log('Observed data from INSIDE ngOnInit: ', this.data);
     });
   }
 
@@ -47,8 +48,9 @@ export class GameComponent {
     this.newGame();
     this.route.params.subscribe(async (params) => {
       console.log(params['gameId']);
-      const docRef = doc(this.collRef, params['gameId']);
-      const docSnap = await getDoc(docRef);
+      this.gameId = params['gameId'];
+       this.docRef = doc(this.collRef, params['gameId']);
+      const docSnap = await getDoc(this.docRef);
       //the game object on firebase is a nested object, which I have to destructure first
       const fireDocumentObject = docSnap.data();
       const destructuredGameObject = fireDocumentObject['game'];
@@ -75,8 +77,39 @@ export class GameComponent {
     console.log('Game info: ', gameInfo.id);
   }
 
+  takeCard() {
+    if (!this.pickCardAnimation) {
+      this.currentCard = this.game.stack.pop();
+      this.pickCardAnimation = true;
+      this.game.currentPlayer++;
+      this.game.currentPlayer =
+        this.game.currentPlayer % this.game.players.length;
+      setTimeout(() => {
+        this.game.playedCards.push(this.currentCard);
+        this.pickCardAnimation = false;
+      }, 1000);
+      this.updateGame();
+    }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogAddPlayerComponent);
+
+    dialogRef.afterClosed().subscribe((name) => {
+      if (name && name.length > 0) {
+        // prüfen, ob die Variable existiert und wenn ja, ob was drin steht. Nur dann wird der Name als Spieler in Players gepusht
+
+        this.game.players.push(name);
+        this.updateGame();
+      }
+    });
+  }
   
-  
+  async updateGame() {
+    await updateDoc(this.docRef, { game: this.game.toJSON() });
+    console.log(this.docRef);
+    
+  }
   
   //############ MEMORIZE ###################
   // auf games$ kann im template per "*ngFor="let data of games$ | asnc" zugegriffen werden
@@ -95,29 +128,5 @@ export class GameComponent {
   //############ MEMORIZE ###################
   
  
-  takeCard() {
-    if (!this.pickCardAnimation) {
-      this.currentCard = this.game.stack.pop();
-      this.pickCardAnimation = true;
-      this.game.currentPlayer++;
-      this.game.currentPlayer =
-        this.game.currentPlayer % this.game.players.length;
-      setTimeout(() => {
-        this.game.playedCards.push(this.currentCard);
-        this.pickCardAnimation = false;
-      }, 1000);
-    }
-  }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-
-    dialogRef.afterClosed().subscribe((name) => {
-      if (name && name.length > 0) {
-        // prüfen, ob die Variable existiert und wenn ja, ob was drin steht. Nur dann wird der Name als Spieler in Players gepusht
-
-        this.game.players.push(name);
-      }
-    });
-  }
+ 
 }

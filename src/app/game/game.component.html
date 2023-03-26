@@ -19,11 +19,7 @@
     <app-game-info [card]="currentCard" class="game-card-info"></app-game-info>
 
     <div class="firebase-data">
-        <ul>
-            <li *ngFor="let data of actualFirebasedata; let i=index">
-                {{ data.game }}
-            </li>
-        </ul>
+               Current Game ID: <b>{{gameId }}</b>
 
     </div>
 

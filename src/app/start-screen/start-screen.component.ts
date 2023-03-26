@@ -29,11 +29,10 @@ export class StartScreenComponent {
   }
 
   async newGame() {
-    debugger;
     let game = new Game();
     const docRef = await addDoc(this.collRef, { game: game.toJSON() });
     console.log('Game info: ', docRef.id);
 
-    this.router.navigateByUrl('/game');
+    this.router.navigateByUrl('/game/'+ docRef.id);
   }
 }

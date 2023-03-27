@@ -23,8 +23,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent {
-  pickCardAnimation = false;
-  currentCard: string = '';
+
   games$: Observable<any[]>;
   gameId: string;
   game: Game;
@@ -57,7 +56,8 @@ export class GameComponent {
       this.game.playedCards = destructuredGameObject.playedCards;
       this.game.players = destructuredGameObject.players;
       this.game.stack = destructuredGameObject.stack;
-      
+      this.game.pickCardAnimation = destructuredGameObject.pickCardAnimation;
+      this.game.currentCard = destructuredGameObject.currentCard;      
     });
     
   }
@@ -72,16 +72,17 @@ export class GameComponent {
   }
 
   takeCard() {
-    if (!this.pickCardAnimation) {
-      this.currentCard = this.game.stack.pop();
-      this.pickCardAnimation = true;
-      this.updateGame();
-
+    if (!this.game.pickCardAnimation) {
+      this.game.currentCard = this.game.stack.pop();
+      this.game.pickCardAnimation = true;
+      
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+      this.updateGame();
+      
       setTimeout(() => {
-        this.game.playedCards.push(this.currentCard);
-        this.pickCardAnimation = false;
+        this.game.playedCards.push(this.game.currentCard);
+        this.game.pickCardAnimation = false;
         this.updateGame();
       }, 1000);
     }

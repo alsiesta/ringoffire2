@@ -9,6 +9,7 @@ import {
   collectionData,
   CollectionReference,
   doc,
+  docData,
   DocumentData,
   DocumentReference,
   Firestore,
@@ -23,8 +24,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent {
-
-  games$: Observable<any[]>;
+  game$: Observable<Game>;
   gameId: string;
   game: Game;
   firestore: Firestore = inject(Firestore);
@@ -32,54 +32,50 @@ export class GameComponent {
   private docRef: DocumentReference<any>;
   public actualFirebasedata = [];
 
-  constructor(public dialog: MatDialog, private route:ActivatedRoute) {
+  constructor(public dialog: MatDialog, private route: ActivatedRoute) {
     this.collRef = collection(this.firestore, 'games');
-    this.games$ = collectionData(this.collRef);
-    this.games$.subscribe((firebasedata) => {
- 
-      this.actualFirebasedata = firebasedata;
-    });
   }
 
   ngOnInit() {
     this.newGame();
     this.route.params.subscribe(async (params) => {
-      console.log(params['gameId']);
-      this.gameId = params['gameId'];
-       this.docRef = doc(this.collRef, params['gameId']);
-      const docSnap = await getDoc(this.docRef);
+      this.updateGameProperties(params);
+    });
+  }
 
-      const fireDocumentObject = docSnap.data();
-      const destructuredGameObject = fireDocumentObject['game'];
-
+  updateGameProperties(params) {
+    this.gameId = params['gameId'];
+    this.docRef = doc(this.collRef, this.gameId);
+    this.game$ = docData(this.docRef);
+    this.game$.subscribe((response) => {
+      const destructuredGameObject = response['game'];
       this.game.currentPlayer = destructuredGameObject.currentPlayer;
       this.game.playedCards = destructuredGameObject.playedCards;
       this.game.players = destructuredGameObject.players;
       this.game.stack = destructuredGameObject.stack;
       this.game.pickCardAnimation = destructuredGameObject.pickCardAnimation;
-      this.game.currentCard = destructuredGameObject.currentCard;      
+      this.game.currentCard = destructuredGameObject.currentCard;
     });
-    
   }
 
-   newGame() {
+  newGame() {
     this.game = new Game();
   }
 
-  async createGame() {
-    let gameInfo = await addDoc(this.collRef,{ game: this.game.toJSON() });
-    console.log('Game info: ', gameInfo.id);
-  }
 
   takeCard() {
     if (!this.game.pickCardAnimation) {
+      debugger
+      console.log(this.game);
       this.game.currentCard = this.game.stack.pop();
       this.game.pickCardAnimation = true;
       
-      this.game.currentPlayer++;
-      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
-      this.updateGame();
       
+      this.game.currentPlayer++;
+      this.game.currentPlayer =
+        this.game.currentPlayer % this.game.players.length;
+      this.updateGame();
+
       setTimeout(() => {
         this.game.playedCards.push(this.game.currentCard);
         this.game.pickCardAnimation = false;
@@ -98,9 +94,8 @@ export class GameComponent {
       }
     });
   }
-  
+
   async updateGame() {
-    await updateDoc(this.docRef, { game: this.game.toJSON() });    
+    await updateDoc(this.docRef, { game: this.game.toJSON() });
   }
-  
 }

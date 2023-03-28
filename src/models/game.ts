@@ -1,4 +1,5 @@
 export class Game {
+    [x: string]: any;
     public players: string[] = [];
     public stack: string[] = [];
     public playedCards: string[] = [];

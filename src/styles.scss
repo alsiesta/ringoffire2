@@ -6,3 +6,28 @@ body{
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@media (max-width: 720px) {
+    .hide-mobile{
+        display: none;
+    }
+    .scroll-container{
+        display: flex;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        overflow-x: scroll;
+        overflow-y: hidden;
+      
+        app-player-mobile{
+          margin: 0px 10px;
+        }
+      }
+}
+
+@media (min-width: 720px) {
+    .hide-desktop{
+        display: none;
+    }
+}

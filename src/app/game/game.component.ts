@@ -104,9 +104,17 @@ export class GameComponent {
     const dialogRef = this.dialog.open(EditPlayerComponent);
 
     dialogRef.afterClosed().subscribe((change: string) => {
-  console.log('Received a Change', change);
-  
+      //muss prüfen, ob change auch zurückgegeben wird, sonst gibt es einen firebase error auf undefined
+      if (change) {
+        if (change == 'DELETE') {
+          this.game.players.splice(playerId,1)
+          this.game.playerImages.splice(playerId,1)
+        }
+        this.game.playerImages[playerId] = change;
+      }
+      this.updateGame();
     });
+     
   }
 
 

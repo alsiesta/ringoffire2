@@ -18,6 +18,7 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -52,6 +53,7 @@ export class GameComponent {
       this.game.currentPlayer = destructuredGameObject.currentPlayer;
       this.game.playedCards = destructuredGameObject.playedCards;
       this.game.players = destructuredGameObject.players;
+      this.game.playerImages = destructuredGameObject.playerImages;
       this.game.stack = destructuredGameObject.stack;
       this.game.pickCardAnimation = destructuredGameObject.pickCardAnimation;
       this.game.currentCard = destructuredGameObject.currentCard;
@@ -68,8 +70,6 @@ export class GameComponent {
       console.log(this.game);
       this.game.currentCard = this.game.stack.pop();
       this.game.pickCardAnimation = true;
-      
-      
       this.game.currentPlayer++;
       this.game.currentPlayer =
         this.game.currentPlayer % this.game.players.length;
@@ -83,12 +83,28 @@ export class GameComponent {
     }
   }
 
+  editPlayer(playerId: number) {
+    console.log('Edit player: ', playerId);
+    const dialogRef = this.dialog.open(EditPlayerComponent);
+
+    dialogRef.afterClosed().subscribe((change: string) => {
+      if (change) {
+        console.log('Received change', change);
+        this.game.playerImages[playerId] = change;
+      }
+      this.updateGame();
+
+    });
+  }
+
+
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
     dialogRef.afterClosed().subscribe((name) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        this.game.playerImages.push('avatar1.png');
         this.updateGame();
       }
     });

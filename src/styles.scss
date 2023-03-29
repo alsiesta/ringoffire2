@@ -1,46 +1,59 @@
-
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-body{
-    margin: 0px;
+body {
+  margin: 0px;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 @media (max-width: 720px) {
-    .hide-mobile{
-        display: none;
+  .hide-mobile {
+    display: none;
+  }
+  .scroll-container {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    app-player-mobile {
+      margin: 0px 10px;
     }
-    .scroll-container{
-        display: flex;
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        overflow-x: scroll;
-        overflow-y: hidden;
-      
-        app-player-mobile{
-          margin: 0px 10px;
-        }
-      }
+  }
 }
 
 @media (min-width: 720px) {
-    .hide-desktop{
-        display: none;
-    }
+  .hide-desktop {
+    display: none;
+  }
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    overflow-y: scroll;
-    background: rgba(128, 128, 128, 0);
-    box-shadow: 0 0 0 grey;
+  width: 10px;
+  height: 10px;
+  overflow-y: scroll;
+  background: rgba(128, 128, 128, 0);
+  box-shadow: 0 0 0 grey;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgb(255, 255, 255);
-    border-radius: 10px;
+  background: rgb(255, 255, 255);
+  border-radius: 10px;
+}
+
+app-player,
+app-player-mobile {
+  cursor: pointer;
+  &:hover {
+    filter: brightness(1.15);
+  }
 }

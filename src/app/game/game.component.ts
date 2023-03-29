@@ -64,7 +64,6 @@ export class GameComponent {
     this.game = new Game();
   }
 
-
   takeCard() {
     if (!this.game.pickCardAnimation) {
       console.log(this.game);
@@ -86,17 +85,19 @@ export class GameComponent {
   editPlayer(playerId: number) {
     console.log('Edit player: ', playerId);
     const dialogRef = this.dialog.open(EditPlayerComponent);
-
     dialogRef.afterClosed().subscribe((change: string) => {
+      console.log('Received change', change);
       if (change) {
-        console.log('Received change', change);
-        this.game.playerImages[playerId] = change;
+        if (change == 'DELETE') {
+          this.game.playerImages.splice(playerId, 1);
+          this.game.players.splice(playerId, 1);
+        } else {
+          this.game.playerImages[playerId] = change;
+        }
+        this.updateGame();
       }
-      this.updateGame();
-
     });
   }
-
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);

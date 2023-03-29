@@ -5,6 +5,6 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <!-- <button mat-button [disabled]="name.length == 0" [mat-dialog-close]="name" cdkFocusInitial>Ok</button> -->
+  <button mat-button (click)="dialogRef.close()">No Thanks</button>
+  <button mat-button color="warn" [mat-dialog-close]="'DELETE'" cdkFocusInitial>Delete player</button>
 </div>

@@ -11,7 +11,8 @@ export class EditPlayerComponent {
 
   constructor(public dialogRef: MatDialogRef<EditPlayerComponent>) { }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+  // i call dialogRef.close() directly in the template
+  // onNoClick(): void {
+  //   this.dialogRef.close();
+  // }
 }

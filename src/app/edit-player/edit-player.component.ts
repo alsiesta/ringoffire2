@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-player',
@@ -9,6 +8,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class EditPlayerComponent {
   allProfilePictures = ["avatar1.png", "avatar2.png", "avatar3.png", "avatar4.png"];
 
-  constructor(public dialogRef: MatDialogRef<EditPlayerComponent>){} 
-
+  selectPicture() {
+    
+  }
 }

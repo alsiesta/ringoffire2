@@ -15,6 +15,8 @@
     position: absolute;
     width: 120px;
     top: 50px;
+    box-shadow: black 1px 1px 2px;
+    border-radius: 5px;
 
     @media (max-width: 720px) {
       width: 100px;
@@ -26,35 +28,48 @@
 .top-card {
   cursor: pointer;
   transition: all 125ms ease-in-out;
+  box-shadow: black 3px 3px 3px!important;
+  border-radius: 5px;
 
   &:hover {
     transform: scale(1.1) translateY(-10px);
+    box-shadow: black 6px 6px 10px!important;
+    border-radius: 5px;
   }
 }
 
 .played-card {
   transform: scale(1.3) translateX(-120px) translateY(-180px) rotate(10deg);
   right: 5 * 5px;
+  box-shadow: black 1px 1px 2px;
+  border-radius: 5px;
 
 }
 
 .pick-card {
   animation: pick-card-animation 1s ease-in-out;
-  // transform: scale(1.3) translateX(-120px) translateY(-180px) rotate(10deg);
   z-index: 1;
 }
 
 @keyframes pick-card-animation {
   0% {
+    box-shadow: black 6px 6px 10px;
+    border-radius: 5px;
     transform: scale(1);
   }
   40% {
+    box-shadow: black 10px 10px 12px;
+    border-radius: 5px;
     transform: scale(1.7);
   }
   60% {
+    box-shadow: black 14px 14px 16px;
+    border-radius: 5px;
     transform: scale(1.7);
   }
   100% {
+    box-shadow: black 6px 6px 10px;
+    border-radius: 5px;
     transform: scale(1.3) translateX(-120px) translateY(-180px) rotate(10deg);
   }
 }

@@ -65,7 +65,6 @@ export class GameComponent {
 
   takeCard() {
     if (!this.game.pickCardAnimation) {
-      debugger
       console.log(this.game);
       this.game.currentCard = this.game.stack.pop();
       this.game.pickCardAnimation = true;

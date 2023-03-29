@@ -18,7 +18,6 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
-import { EditPlayerComponent } from '../edit-player/edit-player.component';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -50,11 +49,9 @@ export class GameComponent {
     this.game$ = docData(this.docRef);
     this.game$.subscribe((response) => {
       const destructuredGameObject = response['game'];
-      console.log(destructuredGameObject);
       this.game.currentPlayer = destructuredGameObject.currentPlayer;
       this.game.playedCards = destructuredGameObject.playedCards;
       this.game.players = destructuredGameObject.players;
-      this.game.playerImages = destructuredGameObject.playerImages;
       this.game.stack = destructuredGameObject.stack;
       this.game.pickCardAnimation = destructuredGameObject.pickCardAnimation;
       this.game.currentCard = destructuredGameObject.currentCard;
@@ -92,23 +89,10 @@ export class GameComponent {
     dialogRef.afterClosed().subscribe((name) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
-        this.game.playerImages.push('avatar1.png');
         this.updateGame();
       }
     });
   }
-
-  editPlayer(playerId) {
-
-    console.log('edit player', playerId);
-    const dialogRef = this.dialog.open(EditPlayerComponent);
-
-    dialogRef.afterClosed().subscribe((change: string) => {
-  console.log('Received a Change', change);
-  
-    });
-  }
-
 
   async updateGame() {
     await updateDoc(this.docRef, { game: this.game.toJSON() });

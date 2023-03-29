@@ -1,3 +1,10 @@
+<h1 mat-dialog-title>Select your profile image.</h1>
+
 <div class="profile-picture" >
     <img [mat-dialog-close]="picture" *ngFor="let picture of allProfilePictures" src="./assets/img/player/{{ picture }}">
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <!-- <button mat-button [disabled]="name.length == 0" [mat-dialog-close]="name" cdkFocusInitial>Ok</button> -->
 </div>

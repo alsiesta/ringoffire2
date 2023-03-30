@@ -21,9 +21,10 @@ import { GameInfoComponent } from './game-info/game-info.component';
 import { environment } from '../environments/environment';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { MyfirebaseService } from './myfirebase.service';
+
 import { PlayerMobileComponent } from './player-mobile/player-mobile.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
+import { FirestoreService } from './services/firestore.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
     DialogAddPlayerComponent,
     GameInfoComponent,
     PlayerMobileComponent,
-    EditPlayerComponent
+    EditPlayerComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +51,7 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore())
   ],
-  providers: [MyfirebaseService],
+  providers: [FirestoreService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

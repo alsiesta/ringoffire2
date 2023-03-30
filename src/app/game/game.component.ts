@@ -20,6 +20,9 @@ import {
 } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
+import { FirestoreService } from '../services/firestore.service';
+
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -29,14 +32,18 @@ export class GameComponent {
   game$: Observable<Game>;
   gameId: string;
   game: Game;
-  firestore: Firestore = inject(Firestore);
+
+  // firestore: Firestore = inject(Firestore);
+  
   private collRef: CollectionReference<DocumentData>;
   private docRef: DocumentReference<any>;
   public actualFirebasedata = [];
   gameOver = false;
 
-  constructor(private router: Router, public dialog: MatDialog, private route: ActivatedRoute) {
-    this.collRef = collection(this.firestore, 'games');
+  constructor(private firestore: FirestoreService ,private router: Router, public dialog: MatDialog, private route: ActivatedRoute) {
+
+    this.collRef = this.firestore.getCollectionRef('games');
+    // this.collRef = collection(this.firestore, 'games');
   }
 
   ngOnInit() {

@@ -13,7 +13,7 @@ export class MyfirebaseService {
   public actualFirebasedata = [];
   games$: Observable<any[]>;
   game: Game;
-  constructor(private readonly firestore: Firestore) {
+  constructor(private firestore: Firestore) {
     this.game = new Game();
     this.collRef = collection(this.firestore, 'games');
     this.collRef = collection(this.firestore, 'games');

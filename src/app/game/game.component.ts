@@ -115,7 +115,7 @@ export class GameComponent {
     dialogRef.afterClosed().subscribe((name) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
-        this.game.playerImages.push('avatar1.png');
+        this.game.playerImages.push('avatar0.png');
         this.updateGame();
       }
     });

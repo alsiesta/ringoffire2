@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class PlayerMobileComponent {
   @Input() name;
-  @Input() playerImage = 'avatar1.png';
+  @Input() playerImage = 'avatar0.png';
   @Input() playerActive: boolean = false;
 
 }

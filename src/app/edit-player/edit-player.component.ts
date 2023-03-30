@@ -7,11 +7,11 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./edit-player.component.scss']
 })
 export class EditPlayerComponent {
-  allProfilePictures = ["avatar1.png", "avatar2.png", "avatar3.png", "avatar4.png"];
+  allProfilePictures = ["avatar1.png", "avatar2.png", "avatar3.png", "avatar4.png", "avatar5.png", "avatar6.png"];
 
   constructor(public dialogRef: MatDialogRef<EditPlayerComponent>) { }
 
-  // i call dialogRef.close() directly in the template
+  // I am calling dialogRef.close() directly in the template
   // onNoClick(): void {
   //   this.dialogRef.close();
   // }

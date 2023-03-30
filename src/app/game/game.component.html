@@ -12,8 +12,11 @@
 
 <div class="play-field">
     <div class="game-over" *ngIf="gameOver">
-    <img src="./assets/img/game_over.png" alt="">
+    <img (click)="restartGame()" src="./assets/img/game_over.png" alt="">
 </div>
+
+<img class="preload-image" src="./assets/img/cards/{{ game.stack[game.stack.length -1] }}.png">
+
     <div *ngIf="!gameOver" class="card-stack">
         <!-- card stack  -->
         <img *ngFor="let c of [0,1,2,3]; let i = index;" [ngStyle]="{'right.px':i*5}"

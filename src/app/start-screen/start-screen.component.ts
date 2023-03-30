@@ -21,7 +21,6 @@ import {
   styleUrls: ['./start-screen.component.scss'],
 })
 export class StartScreenComponent {
-  // firestore: Firestore = inject(Firestore);
   private collRef: CollectionReference<DocumentData>;
 
   constructor(private router: Router, private firestore: Firestore) {

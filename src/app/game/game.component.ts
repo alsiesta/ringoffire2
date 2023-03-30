@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { Game } from 'src/models/game';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
-import { delay, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import {
   addDoc,
   collection,
@@ -34,7 +35,7 @@ export class GameComponent {
   public actualFirebasedata = [];
   gameOver = false;
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute) {
+  constructor(private router: Router, public dialog: MatDialog, private route: ActivatedRoute) {
     this.collRef = collection(this.firestore, 'games');
   }
 
@@ -63,6 +64,10 @@ export class GameComponent {
 
   newGame() {
     this.game = new Game();
+  }
+
+  restartGame() {
+    this.router.navigateByUrl('');
   }
 
   takeCard() {

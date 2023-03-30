@@ -14,6 +14,7 @@ import {
   getDoc,
   setDoc,
 } from '@angular/fire/firestore';
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-start-screen',
@@ -23,8 +24,8 @@ import {
 export class StartScreenComponent {
   private collRef: CollectionReference<DocumentData>;
 
-  constructor(private router: Router, private firestore: Firestore) {
-    this.collRef = collection(this.firestore, 'games');
+  constructor(private firestoreService: FirestoreService ,private router: Router, private firestore: Firestore) {
+    this.collRef = this.firestoreService.getCollection();
   }
 
   async newGame() {

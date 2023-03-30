@@ -32,6 +32,7 @@ export class GameComponent {
   private collRef: CollectionReference<DocumentData>;
   private docRef: DocumentReference<any>;
   public actualFirebasedata = [];
+  gameOver = false;
 
   constructor(public dialog: MatDialog, private route: ActivatedRoute) {
     this.collRef = collection(this.firestore, 'games');
@@ -65,7 +66,9 @@ export class GameComponent {
   }
 
   takeCard() {
-    if (!this.game.pickCardAnimation) {
+    if (this.game.stack.length === 0) {
+      this.gameOver = true;
+    } else if (!this.game.pickCardAnimation) {
       console.log(this.game);
       this.game.currentCard = this.game.stack.pop();
       this.game.pickCardAnimation = true;
@@ -73,6 +76,8 @@ export class GameComponent {
       this.game.currentPlayer =
         this.game.currentPlayer % this.game.players.length;
       this.updateGame();
+      console.log(this.game);
+      
 
       setTimeout(() => {
         this.game.playedCards.push(this.game.currentCard);

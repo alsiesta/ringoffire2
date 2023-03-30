@@ -8,8 +8,13 @@
     </app-player-mobile>
 </div>
 
+
+
 <div class="play-field">
-    <div class="card-stack">
+    <div class="game-over" *ngIf="gameOver">
+    <img src="./assets/img/game_over.png" alt="">
+</div>
+    <div *ngIf="!gameOver" class="card-stack">
         <!-- card stack  -->
         <img *ngFor="let c of [0,1,2,3]; let i = index;" [ngStyle]="{'right.px':i*5}"
             src="./assets/img/cards/card_cover.png">
@@ -23,13 +28,13 @@
             src="./assets/img/cards/{{ game.currentCard }}.png">
     </div>
 
-    <app-game-info [card]="game.currentCard" class="game-card-info"></app-game-info>
+    <app-game-info *ngIf="!gameOver"  [card]="game.currentCard" class="game-card-info"></app-game-info>
 
     <div class="firebase-data">
         Current Game ID: <b>{{gameId }}</b>
 
     </div>
 
-    <button mat-fab color="primary" (click)="openDialog()" class="btn-add">
+    <button *ngIf="!gameOver" mat-fab color="primary" (click)="openDialog()" class="btn-add">
         <mat-icon>add</mat-icon>
     </button>

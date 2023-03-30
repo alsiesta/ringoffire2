@@ -32,19 +32,12 @@ export class GameComponent {
   game$: Observable<Game>;
   gameId: string;
   game: Game;
-
-  // firestore: Firestore = inject(Firestore);
   
-  private collRef: CollectionReference<DocumentData>;
   private docRef: DocumentReference<any>;
   public actualFirebasedata = [];
   gameOver = false;
 
-  constructor(private firestore: FirestoreService ,private router: Router, public dialog: MatDialog, private route: ActivatedRoute) {
-
-    this.collRef = this.firestore.getCollectionRef('games');
-    // this.collRef = collection(this.firestore, 'games');
-  }
+  constructor(private firestoreService: FirestoreService ,private router: Router, public dialog: MatDialog, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.newGame();
@@ -55,8 +48,9 @@ export class GameComponent {
 
   updateGameProperties(params) {
     this.gameId = params['gameId'];
-    this.docRef = doc(this.collRef, this.gameId);
-    this.game$ = docData(this.docRef);
+    this.docRef = this.firestoreService.getDocRef(this.gameId);
+    this.game$ = this.firestoreService.getDocData();
+    
     this.game$.subscribe((response) => {
       const destructuredGameObject = response['game'];
       this.game.currentPlayer = destructuredGameObject.currentPlayer;

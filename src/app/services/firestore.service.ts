@@ -5,7 +5,6 @@ import { addDoc, collection, collectionData, CollectionReference, doc, DocumentD
   providedIn: 'root'
 })
 export class FirestoreService {
-  private collRef: CollectionReference<DocumentData>;
 
   constructor(private firestore: Firestore) { }
 
@@ -13,8 +12,4 @@ export class FirestoreService {
     return collection(this.firestore, collectionName);
   }
 
-  getDocRef(params) {
-    let gameId = params['gameId'];
-    return doc(this.collRef, gameId);
-  }
 }

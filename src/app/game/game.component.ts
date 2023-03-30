@@ -34,17 +34,15 @@ export class GameComponent {
   game: Game;
 
   // firestore: Firestore = inject(Firestore);
-  private firestore: FirestoreService = inject(FirestoreService);
-
-  // private collRef: CollectionReference<DocumentData>;
+  
+  private collRef: CollectionReference<DocumentData>;
   private docRef: DocumentReference<any>;
   public actualFirebasedata = [];
   gameOver = false;
 
-  constructor(private router: Router, public dialog: MatDialog, private route: ActivatedRoute) {
+  constructor(private firestore: FirestoreService ,private router: Router, public dialog: MatDialog, private route: ActivatedRoute) {
 
-    this.firestore.getCollectionRef('games');
-    // this.collRef = this.firestore.getCollectionRef('games');
+    this.collRef = this.firestore.getCollectionRef('games');
     // this.collRef = collection(this.firestore, 'games');
   }
 
@@ -56,10 +54,8 @@ export class GameComponent {
   }
 
   updateGameProperties(params) {
-    // this.gameId = params['gameId'];
-    // this.docRef = doc(this.collRef, this.gameId);
-    this.docRef = this.firestore.getDocRef(params);
-    
+    this.gameId = params['gameId'];
+    this.docRef = doc(this.collRef, this.gameId);
     this.game$ = docData(this.docRef);
     this.game$.subscribe((response) => {
       const destructuredGameObject = response['game'];

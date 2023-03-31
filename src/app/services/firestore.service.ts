@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Game } from 'src/models/game';
 
 import {
+  addDoc,
   collection,
   CollectionReference,
   doc,
@@ -12,8 +13,7 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 
-@Injectable({ providedIn: 'root', })
-  
+@Injectable({ providedIn: 'root' })
 export class FirestoreService {
   game: Game;
   private gameCollection: CollectionReference<DocumentData>;
@@ -23,8 +23,8 @@ export class FirestoreService {
     this.gameCollection = collection(this.firestore, 'games');
   }
 
-  getCollection() {
-    return this.gameCollection
+  getCollection(collectionName: string) {
+    return collection(this.firestore, collectionName);
   }
 
   getDocRef(gameId) {
@@ -33,8 +33,12 @@ export class FirestoreService {
   }
 
   getDocData() {
-    const gameData = docData(this.docRef)
+    const gameData = docData(this.docRef);
     return gameData;
   }
 
+  createDoc() {
+    let game = new Game();
+    return addDoc(this.gameCollection, { game: game.toJSON() });
+  }
 }

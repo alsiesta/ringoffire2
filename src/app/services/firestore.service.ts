@@ -15,7 +15,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class FirestoreService {
-  game: Game;
+  // game: Game;
   private gameCollection: CollectionReference<DocumentData>;
   private docRef: DocumentReference<any>;
 
@@ -37,10 +37,10 @@ export class FirestoreService {
     return gameData;
   }
 
-   createDoc() {
+  createDoc() {
     let game = new Game();
     return addDoc(this.gameCollection, game.toJSON());
-     
+
     // //unten setze ich innerhalb der {} das game nochmals in ein game{}. Und deswegen muss ich das in game.ts deconstructen
     // let game = new Game();
     // return addDoc(this.gameCollection, { game: game.toJSON() });

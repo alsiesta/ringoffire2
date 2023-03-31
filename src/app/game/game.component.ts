@@ -126,8 +126,8 @@ export class GameComponent {
     });
   }
 
-  async updateGame() {
-    await updateDoc(this.docRef, this.game.toJSON() );
+  updateGame() {
+     updateDoc(this.docRef, this.game.toJSON() );
   }
   // async updateGame() {
   //   await updateDoc(this.docRef, { game: this.game.toJSON() });

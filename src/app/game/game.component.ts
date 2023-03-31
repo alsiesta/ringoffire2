@@ -4,20 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import {
-  addDoc,
-  collection,
-  collectionData,
-  CollectionReference,
-  doc,
-  docData,
-  DocumentData,
-  DocumentReference,
-  Firestore,
-  getDoc,
-  setDoc,
-  updateDoc,
-} from '@angular/fire/firestore';
+import { DocumentReference,updateDoc,} from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
 import { FirestoreService } from '../services/firestore.service';
@@ -52,15 +39,24 @@ export class GameComponent {
     this.game$ = this.firestoreService.getDocData();
     
     this.game$.subscribe((response) => {
-      const destructuredGameObject = response['game'];
-      this.game.currentPlayer = destructuredGameObject.currentPlayer;
-      this.game.playedCards = destructuredGameObject.playedCards;
-      this.game.players = destructuredGameObject.players;
-      this.game.playerImages = destructuredGameObject.playerImages;
-      this.game.stack = destructuredGameObject.stack;
-      this.game.pickCardAnimation = destructuredGameObject.pickCardAnimation;
-      this.game.currentCard = destructuredGameObject.currentCard;
+      this.game.currentPlayer = response.currentPlayer;
+      this.game.playedCards = response.playedCards;
+      this.game.players = response.players;
+      this.game.playerImages = response.playerImages;
+      this.game.stack = response.stack;
+      this.game.pickCardAnimation = response.pickCardAnimation;
+      this.game.currentCard = response.currentCard;
     });
+    // this.game$.subscribe((response) => {
+    //   const destructuredGameObject = response['game'];
+    //   this.game.currentPlayer = destructuredGameObject.currentPlayer;
+    //   this.game.playedCards = destructuredGameObject.playedCards;
+    //   this.game.players = destructuredGameObject.players;
+    //   this.game.playerImages = destructuredGameObject.playerImages;
+    //   this.game.stack = destructuredGameObject.stack;
+    //   this.game.pickCardAnimation = destructuredGameObject.pickCardAnimation;
+    //   this.game.currentCard = destructuredGameObject.currentCard;
+    // });
   }
 
   newGame() {
@@ -123,6 +119,9 @@ export class GameComponent {
   }
 
   async updateGame() {
-    await updateDoc(this.docRef, { game: this.game.toJSON() });
+    await updateDoc(this.docRef, this.game.toJSON() );
   }
+  // async updateGame() {
+  //   await updateDoc(this.docRef, { game: this.game.toJSON() });
+  // }
 }

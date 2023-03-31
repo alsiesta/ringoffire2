@@ -37,8 +37,12 @@ export class FirestoreService {
     return gameData;
   }
 
-  createDoc() {
+   createDoc() {
     let game = new Game();
-    return addDoc(this.gameCollection, { game: game.toJSON() });
+     return addDoc(this.gameCollection, game.toJSON());
+     
+    // unten setze ich innerhalb der {} das game nochmals in ein game{}. Und deswegen muss ich das in game.ts deconstructen
+    // let game = new Game();
+    // return addDoc(this.gameCollection, { game: game.toJSON() });
   }
 }

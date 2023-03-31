@@ -25,12 +25,13 @@ export class StartScreenComponent {
   }
 
    async newGame() {
-    const docRef = await this.firestoreService.createDoc();
+     const docRef =  await this.firestoreService.createDoc();
+      // Wenn docRef ein Promise ist (docRef: Promise<DocumentReference<DocumentData>>), weil ich es mit await aus dem Service bekomme, dann ist docRef eben keine DocumentReference (docRef: DocumentReference<DocumentData>) - sondern ein Promise - und ich kann nicht auf die docRef.id zugreifen!!!!!
     console.log('Game info: ', docRef.id);
-
     this.router.navigateByUrl('/game/' + docRef.id);
   }
 
+  // alter Code ohne den Service
   // async newGame() {
   //   let game = new Game();
   //   const docRef = await addDoc(this.collRef, { game: game.toJSON() });

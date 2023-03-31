@@ -77,6 +77,8 @@ export class GameComponent {
       this.game.currentPlayer++;
       this.game.currentPlayer =
         this.game.currentPlayer % this.game.players.length;
+      // this.firestoreService.updateDoc();
+      
       this.updateGame();
       console.log(this.game);
       
@@ -84,6 +86,8 @@ export class GameComponent {
       setTimeout(() => {
         this.game.playedCards.push(this.game.currentCard);
         this.game.pickCardAnimation = false;
+        // this.firestoreService.updateDoc();
+
         this.updateGame();
       }, 1000);
     }
@@ -101,6 +105,8 @@ export class GameComponent {
         } else {
           this.game.playerImages[playerId] = change;
         }
+        // this.firestoreService.updateDoc();
+
         this.updateGame();
       }
     });
@@ -113,6 +119,8 @@ export class GameComponent {
       if (name && name.length > 0) {
         this.game.players.push(name);
         this.game.playerImages.push('avatar0.png');
+        // this.firestoreService.updateDoc();
+
         this.updateGame();
       }
     });
